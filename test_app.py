@@ -4,9 +4,9 @@ from app import app
 class AppTestCase(unittest.TestCase):
     def setUp(self):
         self.client = app.test_client()
-        self.client.testing = True
+        self.client.testing = Trueееее
 
-    def test_index_returns_900(self):
+    def test_index_returns_200(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
 
