@@ -2,13 +2,15 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME  = 'myuser/demo-app'
-        IMAGE_TAG   = "${IMAGE_NAME}:${BUILD_NUMBER}"
-        DOCKER_CRED = credentials('dockerhub-creds')
+        IMAGE_NAME = 'localhost:5001/demo-app'
+        IMAGE_TAG  = "${IMAGE_NAME}:${BUILD_NUMBER}"
+    }
+
+    triggers {
+        pollSCM('H/1 * * * *')
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -36,13 +38,7 @@ pipeline {
 
         stage('Push Image') {
             steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/',
-                                        'dockerhub-creds') {
-                        docker.image("${IMAGE_TAG}").push()
-                        docker.image("${IMAGE_TAG}").push('latest')
-                    }
-                }
+                sh "docker push ${IMAGE_TAG}"
             }
         }
 
