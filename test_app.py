@@ -6,7 +6,7 @@ class AppTestCase(unittest.TestCase):
         self.client = app.test_client()
         self.client.testing = True
 
-    def test_index_returns_200(self):
+    def test_index_returns_900(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
 
